@@ -37,7 +37,7 @@ export default function AdminLogin() {
       password: password.trim(),
     };
 
-    console.log("LOGIN PAYLOAD:", payload);
+    // console.log("LOGIN PAYLOAD:", payload);
 
 
     const res = await api.post(
