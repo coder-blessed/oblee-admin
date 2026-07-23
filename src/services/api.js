@@ -11,21 +11,30 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(
-  (config) => {
-    if (typeof window !== "undefined") {
+  (config)=>{
+
+    if(
+      typeof window !== "undefined" &&
+      !config.url.includes("/admin/auth/login")
+    ){
+
       const token =
         localStorage.getItem(
           "admin_token"
         );
 
-      if (token) {
+
+      if(token){
+
         config.headers.Authorization =
           `Bearer ${token}`;
+
       }
+
     }
 
     return config;
+
   }
 );
-
 export default api;

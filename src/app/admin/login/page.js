@@ -27,35 +27,49 @@ export default function AdminLogin() {
     useState(false);
 
   async function login(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const res = await api.post(
-        "/admin/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+    const payload = {
+      email: email.trim(),
+      password: password.trim(),
+    };
 
-      localStorage.setItem(
-        "admin_token",
-        res.data.accessToken
-      );
+    console.log("LOGIN PAYLOAD:", payload);
 
-      router.push("/admin/dashboard");
-    } catch (error) {
-      alert(
-        error.response?.data?.message ??
-          "Login Failed"
-      );
-    } finally {
-      setLoading(false);
-    }
+
+    const res = await api.post(
+      "/admin/auth/login",
+      payload
+    );
+
+
+    localStorage.setItem(
+      "admin_token",
+      res.data.accessToken
+    );
+
+
+    router.push("/admin/dashboard");
+
+
+  } catch (error) {
+
+    console.log(
+      error.response?.data
+    );
+
+    alert(
+      error.response?.data?.message ??
+      "Login Failed"
+    );
+
+  } finally {
+    setLoading(false);
   }
-
+}
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-6">
 
