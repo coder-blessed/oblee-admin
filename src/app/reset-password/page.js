@@ -1,11 +1,15 @@
 "use client";
 
-import {useState} from "react";
+import {
+ useEffect,
+ useState
+} from "react";
+
 
 export default function ResetPasswordPage(){
 
-const [password,setPassword]=useState("");
 const [token,setToken]=useState("");
+
 
 useEffect(()=>{
 
@@ -14,59 +18,39 @@ new URLSearchParams(
 window.location.search
 );
 
-setToken(
-params.get("token")
-);
+
+const resetToken =
+params.get("token");
+
+
+setToken(resetToken);
+
+
+
+if(resetToken){
+
+window.location.href =
+`oblee://reset-password?token=${resetToken}`;
+
+}
+
 
 },[]);
 
 
-async function reset(){
 
-await fetch(
-"https://your-api.com/auth/reset-password",
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
+return(
 
-token,
-password
-
-})
-});
-
-alert(
-"Password updated"
-);
-
-}
-
-
-return (
-
-<div>
+<div
+style={{
+padding:"40px",
+textAlign:"center"
+}}
+>
 
 <h1>
-Reset Password
+Opening Oblee...
 </h1>
-
-
-<input
-type="password"
-value={password}
-onChange={
-e=>setPassword(e.target.value)
-}
-/>
-
-
-<button onClick={reset}>
-Update Password
-</button>
-
 
 </div>
 
